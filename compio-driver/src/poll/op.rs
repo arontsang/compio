@@ -95,10 +95,12 @@ impl OpCode for CloseFile {
     }
 }
 
-/// Get metadata of an opened file.
-pub struct FileStat<S> {
-    pub(crate) fd: S,
-    pub(crate) stat: libc::stat,
+pin_project! {
+    /// Get metadata of an opened file.
+    pub struct FileStat<S> {
+        pub(crate) fd: S,
+        pub(crate) stat: Stat,
+    }
 }
 
 impl<S> FileStat<S> {
@@ -142,7 +144,7 @@ impl<S: AsFd> OpCode for FileStat<S> {
 }
 
 impl<S> IntoInner for FileStat<S> {
-    type Inner = libc::stat;
+    type Inner = Stat;
 
     fn into_inner(self) -> Self::Inner {
         self.stat
@@ -152,7 +154,7 @@ impl<S> IntoInner for FileStat<S> {
 /// Get metadata from path.
 pub struct PathStat {
     pub(crate) path: CString,
-    pub(crate) stat: libc::stat,
+    pub(crate) stat: Stat,
     pub(crate) follow_symlink: bool,
 }
 
@@ -203,7 +205,7 @@ impl OpCode for PathStat {
 }
 
 impl IntoInner for PathStat {
-    type Inner = libc::stat;
+    type Inner = Stat;
 
     fn into_inner(self) -> Self::Inner {
         self.stat

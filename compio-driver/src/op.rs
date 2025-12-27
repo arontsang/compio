@@ -18,7 +18,7 @@ pub use crate::sys::op::{ConnectNamedPipe, DeviceIoControl};
 #[cfg(unix)]
 pub use crate::sys::op::{
     CreateDir, CreateSocket, FileStat, HardLink, Interest, OpenFile, PathStat, PollOnce,
-    ReadVectoredAt, Rename, Symlink, Unlink, WriteVectoredAt,
+    ReadVectoredAt, Rename, Stat, Symlink, Unlink, WriteVectoredAt,
 };
 #[cfg(io_uring)]
 pub use crate::sys::op::{ReadManagedAt, RecvManaged};
